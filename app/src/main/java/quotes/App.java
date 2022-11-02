@@ -3,12 +3,41 @@
  */
 package quotes;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import com.google.gson.*;
+import java.util.Random;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+public class App {
+
+    public static void main(String[] args) throws IOException {
+
+        String filename = "app/src/main/java/quotes/recentquotes.json";
+        Path quotePath = Paths.get(filename);
+
+        try (Reader reader = Files.newBufferedReader(quotePath, StandardCharsets.UTF_8)){
+
+            JsonElement author = JsonParser.parseReader(reader);
+
+            JsonArray array = author.getAsJsonArray();
+
+            Random random = new Random();
+            int q = random.nextInt(array.size());
+
+            JsonElement element = array.get(q);
+
+                if (element.isJsonObject()){
+                    JsonObject book = element.getAsJsonObject();
+
+                    System.out.println(book.get("author").getAsString());
+                    System.out.println(book.get("text").getAsString());
+                }
+        }
+
     }
 }
