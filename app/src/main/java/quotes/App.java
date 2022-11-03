@@ -15,7 +15,7 @@ import com.google.gson.JsonParser;
 
 public class App {
 
-    public static void main(String[] args) throws IOException {
+    public static int main(String[] args) throws IOException {
 
         String filename = "app/src/main/java/quotes/recentquotes.json";
         Path quotePath = Paths.get(filename);
@@ -31,12 +31,13 @@ public class App {
 
             JsonElement element = array.get(q);
 
-                if (element.isJsonObject()){
-                    JsonObject book = element.getAsJsonObject();
+            if (element.isJsonObject()){
+                JsonObject book = element.getAsJsonObject();
 
-                    System.out.println(book.get("author").getAsString());
-                    System.out.println(book.get("text").getAsString());
-                }
+                System.out.println(book.get("author").getAsString());
+                System.out.println(book.get("text").getAsString());
+            }
+            return q;
         }
 
     }
