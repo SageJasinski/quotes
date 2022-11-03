@@ -15,12 +15,15 @@ import com.google.gson.JsonParser;
 
 public class App {
 
-    public static int main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
+        Path quotePath = Paths.get("recentquotes.json");
+        gson(quotePath);
+    }
 
-        String filename = "app/src/main/java/quotes/recentquotes.json";
-        Path quotePath = Paths.get(filename);
 
-        try (Reader reader = Files.newBufferedReader(quotePath, StandardCharsets.UTF_8)){
+    public static int gson(Path file) throws IOException {
+
+        try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
 
             JsonElement author = JsonParser.parseReader(reader);
 
@@ -31,14 +34,13 @@ public class App {
 
             JsonElement element = array.get(q);
 
-            if (element.isJsonObject()){
-                JsonObject book = element.getAsJsonObject();
 
+            if (element.isJsonObject()) {
+                JsonObject book = element.getAsJsonObject();
                 System.out.println(book.get("author").getAsString());
                 System.out.println(book.get("text").getAsString());
             }
             return q;
         }
-
     }
 }
