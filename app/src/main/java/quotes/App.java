@@ -20,6 +20,7 @@ public class App {
         gson(quotePath);
     }
 
+
     public static int gson(Path file) throws IOException {
 
         try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
@@ -32,6 +33,7 @@ public class App {
             int q = random.nextInt(array.size());
 
             JsonElement element = array.get(q);
+
 
             if (element.isJsonObject()) {
                 JsonObject book = element.getAsJsonObject();
