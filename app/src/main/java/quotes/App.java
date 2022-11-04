@@ -4,6 +4,7 @@
 package quotes;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,7 +18,16 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         Path quotePath = Paths.get("recentquotes.json");
-        gson(quotePath);
+
+        String ronPath = "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
+        HttpURLConnection ronConnected = Ron.makeConnection(ronPath);
+
+        if(ronConnected.HTTP_OK == 200 ){
+            Quotes test = Ron.readFromConnection(ronConnected);
+            Ron.writeFile(test);
+        }else {
+            gson(quotePath);
+        }
     }
 
 
@@ -43,4 +53,7 @@ public class App {
             return q;
         }
     }
+
+
+
 }
